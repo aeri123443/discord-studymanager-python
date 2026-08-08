@@ -1,3 +1,5 @@
+import threading
+from flask import Flask
 import os
 import asyncio
 from datetime import datetime
@@ -39,6 +41,17 @@ def get_current_week():
     
     # 주차 계산 (7일 단위)
     CURRENT_WEEK = (days_diff // 7) + 1
+
+# Render 포트 감지용 더미 웹 서버 구성
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Discord Bot is running!"
+
+def run_web_server():
+    port = int(os.getenv("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
 
 # ==========================================
 # 2. 봇 & 스케줄러 & html2image 초기화
@@ -317,5 +330,9 @@ async def run_task(ctx):
     await ctx.send("테스트 실행을 시작합니다.")
     await weekly_task()
 
-bot.run(DISCORD_TOKEN)
-
+if __name__ == "__main__":
+    # 백그라운드 스레드로 더미 웹 서버 실행
+    threading.Thread(target=run_web_server, daemon=True).start()
+    
+    # 디스코드 봇 실행
+    bot.run(DISCORD_TOKEN)

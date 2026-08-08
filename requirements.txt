@@ -5,3 +5,4 @@ apscheduler
 html2image
 dotenv
 pytz
+flask
