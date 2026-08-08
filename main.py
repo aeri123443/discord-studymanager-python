@@ -121,49 +121,49 @@ def fetch_sheet_data(sheet_title):
 # ==========================================
 # 4. 표 HTML -> PNG 이미지 변환 (해당 코드는 향후 수정)
 # ==========================================
-def generate_schedule_image(day_headers, date_headers, data, output_filename="schedule.png"):
-    if not (day_headers and date_headers and data):
-        return None
+# def generate_schedule_image(day_headers, date_headers, data, output_filename="schedule.png"):
+#     if not (day_headers and date_headers and data):
+#         return None
     
-    headers = list(data[0].keys())
+#     headers = list(data[0].keys())
     
-    html_content = """
-    <html>
-    <head>
-        <style>
-            body { 
-                font-family: 'NanumGothic', 'Arial', sans-serif; 
-                padding: 20px; 
-                background-color: #2f3136; 
-                color: white; 
-            }
-            table { border-collapse: collapse; width: 100%; font-size: 16px; }
-            th, td { border: 1px solid #4f545c; padding: 12px; text-align: left; }
-            th { background-color: #5865f2; color: white; }
-            tr:nth-child(even) { background-color: #36393f; }
-        </style>
-    </head>
-    <body>
-        <table>
-            <thead>
-                <tr>""" + "".join([f"<th>{h}</th>" for h in day_headers]) + """</tr>
-                <tr>""" + "".join([f"<th>{h}</th>" for h in date_headers]) + """</tr>
-            </thead>
-            <tbody>
-    """
+#     html_content = """
+#     <html>
+#     <head>
+#         <style>
+#             body { 
+#                 font-family: 'NanumGothic', 'Arial', sans-serif; 
+#                 padding: 20px; 
+#                 background-color: #2f3136; 
+#                 color: white; 
+#             }
+#             table { border-collapse: collapse; width: 100%; font-size: 16px; }
+#             th, td { border: 1px solid #4f545c; padding: 12px; text-align: left; }
+#             th { background-color: #5865f2; color: white; }
+#             tr:nth-child(even) { background-color: #36393f; }
+#         </style>
+#     </head>
+#     <body>
+#         <table>
+#             <thead>
+#                 <tr>""" + "".join([f"<th>{h}</th>" for h in day_headers]) + """</tr>
+#                 <tr>""" + "".join([f"<th>{h}</th>" for h in date_headers]) + """</tr>
+#             </thead>
+#             <tbody>
+#     """
 
-    for row in data:
-        html_content += "<tr>" + "".join([f"<td>{row.get(h, '')}</td>" for h in headers]) + "</tr>"
+#     for row in data:
+#         html_content += "<tr>" + "".join([f"<td>{row.get(h, '')}</td>" for h in headers]) + "</tr>"
         
-    html_content += """
-            </tbody>
-        </table>
-    </body>
-    </html>
-    """
+#     html_content += """
+#             </tbody>
+#         </table>
+#     </body>
+#     </html>
+#     """
     
-    hti.screenshot(html_str=html_content, save_as=output_filename, size=(800, 600))
-    return output_filename
+#     hti.screenshot(html_str=html_content, save_as=output_filename, size=(800, 600))
+#     return output_filename
 
 # ==========================================
 # 5. 주간 자동 실행 메인 로직
