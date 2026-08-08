@@ -50,9 +50,9 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 scheduler = AsyncIOScheduler(timezone="Asia/Seoul")  # 한국 시간(KST) 기준
 
 # Render/Linux 헤드리스 환경을 고려한 브라우저 플래그
-hti = Html2Image(
-    custom_flags=["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"]
-)
+# hti = Html2Image(
+#     custom_flags=["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"]
+# )
 
 # ==========================================
 # 3. 구글 시트 데이터 로드 (JSON 파일 사용)
