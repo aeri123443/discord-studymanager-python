@@ -12,6 +12,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from html2image import Html2Image
 from dotenv import load_dotenv
+import traceback
 
 # ==========================================
 # 1. 환경변수 및 상수 설정
@@ -188,10 +189,11 @@ async def weekly_task():
     # 디스코드 채널
     channel = bot.get_channel(CHANNEL_ID)
     if not channel:
-        print(f"채널 ID {CHANNEL_ID}를 찾을 수 없습니다.")
+        print(f"❌ 채널 ID {CHANNEL_ID}를 찾을 수 없습니다.")
         return
 
     try:
+        print(f"🔍 [{sheet_title}] 구글 시트 데이터 로드 중...")
         # 1. 시트 데이터 가져오기
         day_headers, date_headers, data = fetch_sheet_data(sheet_title)
 
@@ -208,10 +210,13 @@ async def weekly_task():
         )
         # file = discord.File(image_path, filename="schedule.png")
         
+        print(f"🔍 디스코드 채널에 공지 메시지 전송 중...")
+        print(f"message_content: {message_content}")
+
         await channel.send(content=message_content)
         
         # 4. 월~금 5개 스레드 일괄 생성
-        
+        print(f"🔍 디스코드 채널에 스레드 생성 중...")
         for idx in range(5):
             title = day_headers[idx] + ' | ' + date_headers[idx]
             msg = (
@@ -327,8 +332,16 @@ async def on_ready():
 @bot.command()
 async def run_task(ctx):
     get_current_week()
+    print(f"✅ {CURRENT_WEEK}주차 run_task 호출")
     await ctx.send("테스트 실행을 시작합니다.")
-    await weekly_task()
+    try:
+        print("🔍 weekly_task 실행 시작...")
+        await weekly_task()
+        print("✅ weekly_task 완료!")
+    except Exception as e:
+        print(f"❌ [run_task 커맨드 실행 중 에러 발생]: {e}")
+        traceback.print_exc()
+        await ctx.send(f"❌ 실행 중 에러가 발생했습니다: `{e}`")
 
 if __name__ == "__main__":
     # 백그라운드 스레드로 더미 웹 서버 실행
